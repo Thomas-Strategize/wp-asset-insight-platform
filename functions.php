@@ -1,6 +1,4 @@
 <?php
-// Theme functions.php file
-
 // Enqueue styles and scripts
 function wp_asset_insight_enqueue_styles() {
     wp_enqueue_style('style', get_stylesheet_uri());
@@ -22,3 +20,18 @@ function wp_asset_insight_register_post_types() {
     ]);
 }
 add_action('init', 'wp_asset_insight_register_post_types');
+
+// Register custom taxonomies
+function wp_asset_insight_register_taxonomies() {
+    // Register Topic taxonomy
+    register_taxonomy('topic', 'article', [
+        'hierarchical' => true,
+        'labels' => [
+            'name' => 'Topics',
+            'singular_name' => 'Topic',
+        ],
+        'show_ui' => true,
+        'show_in_rest' => true, // Enable in Gutenberg
+    ]);
+}
+add_action('init', 'wp_asset_insight_register_taxonomies');
