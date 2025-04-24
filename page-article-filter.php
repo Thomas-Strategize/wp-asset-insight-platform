@@ -67,5 +67,5 @@ endif;
 // Reset post data
 wp_reset_postdata();
 
-get_footer(); // Include the footer
+get_footer();
 ?>
