@@ -23,6 +23,29 @@ if ( isset( $_GET['topic'] ) ) {
 
 $the_query = new WP_Query( $args );
 
+?>
+
+<!-- Taxonomy Filter Form -->
+<form method="GET" action="<?php echo esc_url( home_url( '/' ) ); ?>">
+    <select name="topic">
+        <option value="">Select a Topic</option>
+        <?php
+        // Get all terms for 'topic' taxonomy
+        $terms = get_terms( array( 'taxonomy' => 'topic', 'orderby' => 'name' ) );
+        foreach ( $terms as $term ) :
+            ?>
+            <option value="<?php echo $term->slug; ?>" <?php selected( $_GET['topic'], $term->slug ); ?>>
+                <?php echo $term->name; ?>
+            </option>
+            <?php
+        endforeach;
+        ?>
+    </select>
+    <button type="submit">Filter</button>
+</form>
+
+<!-- Loop through the filtered articles -->
+<?php
 if ( $the_query->have_posts() ) :
     while ( $the_query->have_posts() ) :
         $the_query->the_post();
@@ -41,8 +64,6 @@ else :
     echo '<p>No articles found.</p>';
 endif;
 
-// Reset post data
-wp_reset_postdata();
-
+wp_reset_postdata(); // Reset post data
 get_footer(); // Include the footer
 ?>
